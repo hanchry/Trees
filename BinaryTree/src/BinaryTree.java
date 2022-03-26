@@ -1,69 +1,85 @@
-public class BinaryTree implements IBinaryTree
+import java.util.*;
+
+public class BinaryTree<E>
 {
-  private Node grantParent;
+  private BinaryTreeNode<E> root;
+  private int size;
 
-  public BinaryTree(){
-    grantParent = new Node();
-  }
-  @Override public void addNode(Node node)
+  public BinaryTreeNode<E> getRoot()
   {
-    if(grantParent.isValueEmpty()){
-      grantParent.setValue(node.getValue());
+    return root;
+  }
+
+  public void setRoot(BinaryTreeNode<E> root)
+  {
+    this.root = root;
+  }
+
+  public boolean isEmpty()
+  {
+    return root == null;
+  }
+
+  public int size()
+  {
+    return size;
+  }
+
+  public boolean contains(E element)
+  {
+    if(root == null){
+      return false;
     }
-    else
+    return inOrder().contains(element);
+  }
+
+
+  public ArrayList<E> inOrder(){
+    ArrayList<E> result = new ArrayList<>();
+    Stack<BinaryTreeNode> stack = new Stack<>();
+    BinaryTreeNode<E> check = root;
+
+    while (!stack.isEmpty() || check != null)
     {
-      Node check = grantParent;
-      while (true)
+      while (check != null)
       {
-        if (node.getValue() < check.getValue()){
-          if(check.getLeft() != null){
-            check = check.getLeft();
-          }
-          else {
-            check.setLeft(node);
-            System.out.println(check.getValue() + " added left " + node.getValue());
-            break;
-          }
-        }
-        else if (node.getValue() > check.getValue()){
-          if(check.getRight() != null){
-            check = check.getRight();
-          }
-          else {
-            check.setRight(node);
-            System.out.println(check.getValue() + " added right " + node.getValue());
-            break;
-          }
-        }
+        stack.add(check);
+        check = check.getLeftChild();
       }
-    }
-  }
 
-  @Override public Node getLowestNode()
-  {
-    Node result = grantParent;
-    while(true){
-      if(result.getLeft() != null){
-        result = result.getLeft();
-      }
-      else{
-        break;
-      }
+      check = stack.pop();
+      result.add(check.getElement());
+      check = check.getRightChild();
+
     }
     return result;
   }
 
-  @Override public Node getHighestNode()
-  {
-    Node result = grantParent;
-    while(true){
-      if(result.getRight() != null){
-        result = result.getRight();
+  public ArrayList<E> preOrder(){
+    ArrayList<E> result = new ArrayList<>();
+    Stack<BinaryTreeNode> stack = new Stack<>();
+    BinaryTreeNode<E> check = root;
+    result.add(check.getElement());
+
+    while (!stack.isEmpty() || check != null)
+    {
+      while (check != null)
+      {
+        stack.add(check);
+        check = check.getLeftChild();
+
+        if (check != null && !result.contains(check.getElement()))
+        {
+          result.add(check.getElement());
+        }
       }
-      else{
-        break;
-      }
+
+      check = stack.pop();
+      check = check.getRightChild();
+      if(check != null) result.add(check.getElement());
     }
     return result;
   }
+
+
 }
