@@ -82,4 +82,48 @@ public class BinaryTree<E>
   }
 
 
+  public ArrayList<E> postOrder(){
+    ArrayList<E> result = new ArrayList<>();
+    Stack<BinaryTreeNode> stack = new Stack<>();
+    Stack<BinaryTreeNode> stack2 = new Stack<>();
+    BinaryTreeNode<E> check = root;
+
+    stack.add(check);
+
+    while (!stack.isEmpty())
+    {
+      check = stack.pop();
+      stack2.add(check);
+
+      if(check.getLeftChild() != null){
+        stack.add(check.getLeftChild());
+      }
+      if(check.getRightChild() != null){
+        stack.add(check.getRightChild());
+      }
+    }
+    while(!stack2.isEmpty())
+    {
+      check = stack2.pop();
+      result.add(check.getElement());
+    }
+
+    return result;
+  }
+
+
+
+  public ArrayList<E> levelOrder(){
+    ArrayList<E> result = new ArrayList<>();
+    return result;
+  }
+  public int height(BinaryTreeNode node){
+    if (node == null || (node.getLeftChild() == null && node.getRightChild() == null))
+    {
+      return 0;
+    }
+    return 1 + Math.max(height(node.getLeftChild()), height(node.getRightChild()));
+  }
+
+
 }

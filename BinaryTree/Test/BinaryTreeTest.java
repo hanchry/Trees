@@ -45,4 +45,15 @@ public class BinaryTreeTest
     ArrayList<Integer> list = tree.preOrder();
     assertEquals(real,list);
   }
+  @Test
+  void postOrder(){
+    ArrayList<Integer> real = new ArrayList<Integer>(
+        Arrays.asList(2,4,3,13,10,5));
+    ArrayList<Integer> list = tree.postOrder();
+    assertEquals(real,list);
+  }
+  @Test
+  void height(){
+    assertEquals(2,tree.height(node));
+  }
 }
